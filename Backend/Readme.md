@@ -14,7 +14,7 @@ The request body must be a JSON object with the following fields:
 
 - `fullname`: An object containing:
   - `firstname` (string, required): The first name of the user. Must be at least 3 characters long.
-  - `lastname` (string, optional): The last name of the user. Must be at least 3 characters long if provided.
+  - `lastname` (string, required): The last name of the user. Must be at least 3 characters long.
 - `email` (string, required): The email address of the user. Must be a valid email format.
 - `password` (string, required): The password for the user. Must be at least 6 characters long.
 - `role` (string, required): The role of the user. Must be either `user` or `admin`.
@@ -66,13 +66,25 @@ Body:
       "location": "body"
     },
     {
-      "msg": "Invalid Email",
+      "msg": "Invalid email address",
       "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be at least 6 characters",
+      "param": "password",
       "location": "body"
     }
   ]
 }
 ```
+409 Conflict
+
+Description: Email is already registered.
+Body:
+{
+  "message": "Email is already registered"
+}
 
 500 Internal Server Error
 
@@ -80,21 +92,63 @@ Description: Error creating user.
 Body:
 ```json
 {
-  "message": "Error creating user: error_message"
+  "message": "Invalid email or password"
 }
 ```
-How to Run
+
+### POST /users/login
+
+#### Description
+This endpoint is used to log in an existing user.
+
+#### Request Body
+The request body must be a JSON object with the following fields:
+
+- `email` (string, required): The email address of the user. Must be a valid email format.
+- `password` (string, required): The password for the user. Must be at least 6 characters long.
+
+#### Example Request
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+200 OK
+
+Description: User logged in successfully.
+Body:
+```json
+{
+  "message": "User logged in successfully",
+  "user": {
+    "id": "user_id",
+    "fullname": "John Doe",
+    "email": "john.doe@example.com",
+    "role": "user"
+  },
+  "token": "jwt_token"
+}
+```
+
+## How to Run
 Install dependencies:
 
+```bash
 npm install
+```
 
 Start the server:
 
+```bash
 npm start
+```
 
 The server will be running on http://localhost:4000.
 
-Environment Variables
-PORT: The port on which the server will run (default: 4000).
-DB_CONNECTION: The MongoDB connection URI.
-JWT_SECRET: The secret key for signing JWT tokens
+## Environment Variables
+- `PORT`: The port on which the server will run (default: 4000).
+- `DB_CONNECTION`: The MongoDB connection URI.
+- `JWT_SECRET`: The secret key for signing JWT tokens.
