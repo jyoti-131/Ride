@@ -59,11 +59,6 @@ Body:
 {
   "errors": [
     {
-      "msg": "First name must be at least 3 characters",
-      "param": "fullname.firstname",
-      "location": "body"
-    },
-    {
       "msg": "Invalid email address",
       "param": "email",
       "location": "body"
@@ -76,6 +71,16 @@ Body:
   ]
 }
 ```
+
+401 Unauthorized
+
+Description: Invalid email or password.
+Body:
+
+{
+  "message": "Invalid email or password"
+}
+
 409 Conflict
 
 Description: Email is already registered.
@@ -130,6 +135,17 @@ Body:
   "token": "jwt_token"
 }
 ```
+
+500 Internal Server Error
+
+Description: Error logging in user.
+Body:
+```json
+{
+  "message": "Error logging in user: error_message"
+}
+```
+
 POST /users/logout
 Description
 This endpoint is used to log out the logged-in user.
@@ -150,7 +166,6 @@ Body:
 {
   "message": "User logged out successfully"
 }
-
 
 ## How to Run
 Install dependencies:
