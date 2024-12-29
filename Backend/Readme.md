@@ -1,7 +1,5 @@
 # Backend API Documentation
 
-Save this content in a file named `README.md` in the [Backend](http://_vscodecontentref_/0) folder.
-
 ## Endpoints
 
 ### POST /users/register
@@ -132,6 +130,27 @@ Body:
   "token": "jwt_token"
 }
 ```
+POST /users/logout
+Description
+This endpoint is used to log out the logged-in user.
+
+Headers
+Authorization (string, required): The JWT token of the logged-in user.
+Example Request
+
+POST /users/logout HTTP/1.1
+Host: localhost:4000
+Authorization: Bearer jwt_token
+
+Responses
+200 OK
+
+Description: User logged out successfully.
+Body:
+{
+  "message": "User logged out successfully"
+}
+
 
 ## How to Run
 Install dependencies:
